@@ -14,10 +14,11 @@ function App() {
   const [pdfFile, setPdfFile]=useState(null);
   const [pdfError, setPdfError]=useState('');
 
+  //let alltext = []; // Массив для хранения всего извлечённого текста
+
   const allowedFiles = ['application/pdf'];
 
   const [dragEnter, setDragEnter] = useState(false)
-
 
   const handleFile = (e) =>{
     let selectedFile = e.target.files[0];
@@ -51,36 +52,22 @@ function App() {
     setDragEnter(false)
   }
 
-  /*function fileUploadHandler(event){
-    const files = [...event.target.files]
-    files.forEach(file => dispatch(uploadFile(file,currenDir)))
-  }*/
-
- /* function  dropHandler(event){
-    event.preventDefault()
-    event.stopPropagation()
-    let files = [...event.dataTransfer.files]
-    files.forEach(file => dispatch(uploadFile(file,currenDir)))
-    setDragEnter(false)
-  }
- */
+//Извлечение текста из пдф
 
   return ( !dragEnter ?
     <div className="container" onDragEnter ={dragEnterHandler} onDragLeave ={dragLeaveHandler} onDragOver={dragEnterHandler}>
-
-      {/* Загрузить файл */}
       <form>
-
-        <label><h5>Upload PDF</h5></label>
+       <label><h5>Upload PDF</h5></label>   {/*Кнопка для загрузки файла */}
         <br></br>
         <input type='file' className="form-control"
-        onChange={handleFile}></input>
-
+        onChange={handleFile}>
+        
+        </input>
         {/*ошибка при выборе не пдф */}
         {pdfError&&<span className='text-danger'>{pdfError}</span>}
 
       </form>
-      {/* Посмотреть Пдф "View PDF" */}
+      {/* Кнопка для посмотра файла */}
       <h5>View PDF</h5>
       <div className="viewer">
 
@@ -94,13 +81,18 @@ function App() {
 
         {/* показать содержимое файла  */}
         {!pdfFile&&<>No file is selected yet</>}
+        {/* запись текста файла в массив  */}
+
 
       </div>
-    </div>
-    :
-    <div className = "drop-area" /*onDrop = {dropHandler}*/ onDragEnter ={dragEnterHandler} onDragLeave ={dragLeaveHandler} onDragOver={dragEnterHandler}>
+    </div> 
+    :  
+    <div className = "drop-area" /*onDrop = {dropHandler}*/ onDragEnter ={dragEnterHandler} onDragLeave ={dragLeaveHandler} onDragOver={dragEnterHandler}>  {/*Для drad and drop */}
       Перетащите файлы сюда
+       {/*ошибка при выборе не пдф */}
+       {pdfError&&<span className='text-danger'>{pdfError}</span>}
     </div>
+
   );
 }
 
